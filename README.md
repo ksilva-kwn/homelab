@@ -29,7 +29,8 @@ Project status: **Alpha**
 - [ ] Observability & Monitoring platform
 - [ ] Streaming with Jellyfin
 - [ ] Speedtest
-- [ ] Tailscale VPN 
+- [ ] Tailscale VPN
+- [ ] Home Assistant
 
 ## :wrench:&nbsp; Tech stack
 

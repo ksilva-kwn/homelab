@@ -22,7 +22,7 @@ Project status: **Alpha**
 - [ ] Kubernetes cluster setup via k3s
 - [ ] Distributed storage
 - [x] Local DNS with Pihole
-- [ ] Observability & Monitoring platform
+- [x] Observability & Monitoring platform with Zabbix
 - [ ] Streaming with Jellyfin
 - [ ] Speedtest
 - [ ] Tailscale VPN

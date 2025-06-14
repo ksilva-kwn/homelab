@@ -18,7 +18,7 @@ The below lists the hardware and some specs of my homelab & network infrastructu
 
 | Device                     | CPU        | RAM   | Storage              | Operating System                | Purpose    |
 | ---------------------------|:----------:|:-----:|:--------------------:|:-------------------------------:|:----------:|
-| Mini PC Lenovo M910q             | I5         | 32GB   | 240GB SSD            |Proxmox Virtual Environment 8.3  | Hypervisor |
+| Mini PC Lenovo M910q             | I5         | 8GB   | 240GB SSD            |Proxmox Virtual Environment 8.4  | Hypervisor |
 
 ## ✨ Features
 

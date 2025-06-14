@@ -21,7 +21,7 @@ The below lists the hardware and some specs of my homelab & network infrastructu
 Project status: **Alpha**
 - [ ] Kubernetes cluster setup via k3s
 - [ ] Distributed storage
-- [ ] Local DNS with Pihole
+- [x] Local DNS with Pihole
 - [ ] Observability & Monitoring platform
 - [ ] Streaming with Jellyfin
 - [ ] Speedtest

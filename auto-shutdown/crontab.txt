@@ -1,0 +1,3 @@
+## Configuração da crontab
+
+*/1 * * * * /caminho_do_script/script.sh

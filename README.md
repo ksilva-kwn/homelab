@@ -1,7 +1,3 @@
-<p align="center">
-<img src="assets/KawanSilva.png">
-</p>
-
 # My Homelab
 
 A repository to store and share the infrastructure, materials and codes, from my small self-hosting homelab. This repository contains everything I use to setup and run the devices in my homelab. For more details, see the README of the following directories.

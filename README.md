@@ -48,11 +48,6 @@ My homelab uses the following software.
     <td><a href="https://www.docker.com">Docker</a></td>
     <td>Container runtime</td>
   </tr>
-  <tr>
-    <td><img width="32" src="https://github.com/cncf/artwork/blob/main/projects/k3s/icon/color/k3s-icon-color.svg"></td>
-    <td><a href="https://k3s.io">K3S</a></td>
-    <td>Container orchestration for k8s cluster</td>
-  </tr>
 </table>
 
 <p align='center'>

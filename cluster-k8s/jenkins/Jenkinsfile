@@ -1,7 +1,7 @@
 stage('init') {
       agent {
         docker {
-          image 'hashicorp/terraform:1.9.8'
+          image 'hashicorp/terraform:1.12.2'
           args '--entrypoint=""'
         }
       }

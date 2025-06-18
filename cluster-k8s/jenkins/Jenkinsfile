@@ -13,6 +13,8 @@ pipeline {
           docker run --rm \
             -v "${env.WORKSPACE}":/workspace \
             -w /workspace/cluster-k8s/terraform \
+            -e AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID} \
+            -e AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY} \
             hashicorp/terraform:1.12.2 \
             init -no-color
         """

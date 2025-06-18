@@ -6,8 +6,6 @@ services:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
-      #- AWS_ACCESS_KEY_ID="root"
-      #- AWS_SECRET_ACCESS_KEY="rootroot"
     restart: always
     networks:
       - docker

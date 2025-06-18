@@ -1,26 +1,15 @@
-pipeline {
-  agent any
-
-  environment {
-    PM_API_TOKEN_ID = credentials('pm-api-token-id')
-    PM_API_TOKEN_SECRET = credentials('pm-api-token-secret')
-    AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-  }
-
-  stages {
-    stage('Terraform Init') {
+stage('init') {
+      agent {
+        docker {
+          image 'hashicorp/terraform:1.9.8'
+          args '--entrypoint=""'
+        }
+      }
       steps {
-        script {
-            docker.image('hashicorp/terraform:1.12.2').inside(
-             "-v ${env.WORKSPACE}:${env.WORKSPACE}"
-          ) {
-            dir("${env.WORKSPACE}/homelab/cluster-k8s/terraform") {
-                sh 'terraform init -no-color'
-            }
-          }
+        dir('homelab/cluster-k8s/terraform') {
+          sh '''
+            terraform init -no-color
+          '''
         }
       }
     }
-  }
-}   

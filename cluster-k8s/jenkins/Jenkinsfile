@@ -25,4 +25,21 @@ pipeline {
             }
         }
     }
+    stages {
+        stage('plan') {
+            agent {
+                docker {
+                    image 'hashicorp/terraform:1.12.2'
+                    args '--entrypoint=""'
+                }
+            }
+            steps {
+                dir('cluster-k8s/terraform') {
+                    sh '''
+                        terraform plan -no-color
+                    '''
+                }
+            }
+        }
+    }
 }

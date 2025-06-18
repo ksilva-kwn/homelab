@@ -8,7 +8,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
     }
 
-    stages {
+    stages { // Only one stages block
         stage('init') {
             agent {
                 docker {
@@ -24,8 +24,7 @@ pipeline {
                 }
             }
         }
-    }
-    stages {
+
         stage('plan') {
             agent {
                 docker {

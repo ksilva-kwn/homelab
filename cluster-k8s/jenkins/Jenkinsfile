@@ -17,7 +17,7 @@ pipeline {
                 }
             }
             steps {
-                dir('kubernetes/02_kubernetes_production_ready/terraform') {
+                dir('homelab/cluster-k8s/terraform') {
                     sh '''
                         terraform init -no-color
                     '''

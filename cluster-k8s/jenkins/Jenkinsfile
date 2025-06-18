@@ -11,7 +11,7 @@ pipeline {
             steps {
                 dir('homelab/cluster-k8s/terraform') {
                 sh '''
-                    terraform init -no-color
+                    pwd && terraform init -no-color
                 '''
                 }
             }

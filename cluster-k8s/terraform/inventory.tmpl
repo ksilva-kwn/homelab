@@ -1,0 +1,29 @@
+[all]
+%{ for master in masters ~}
+${master.vm_name} ansible_host=${master.ip_address} ansible_user=${master.user} etcd_member_name=etcd${master.index + 1}
+%{ endfor ~}
+%{ for worker in workers ~}
+${worker.vm_name} ansible_host=${worker.ip_address} ansible_user=${worker.user}
+%{ endfor ~}
+
+[kube_control_plane]
+%{ for master in masters ~}
+${master.vm_name}
+%{ endfor ~}
+
+[etcd]
+%{ for master in masters ~}
+${master.vm_name}
+%{ endfor ~}
+
+[kube_node]
+%{ for worker in workers ~}
+${worker.vm_name}
+%{ endfor ~}
+
+[calico_rr]
+
+[k8s_cluster:children]
+kube_control_plane
+kube_node
+calico_rr

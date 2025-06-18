@@ -10,11 +10,11 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') - Hora atual: $NOW" >> $LOG
 # -------------------------------------------
 # Configuração
 START_TIME="05:30"
-STOP_TIME="23:59"
+STOP_TIME="00:30"
 
 # IDs das VMs para iniciar/parar juntos
-START_IDS=(100 101 102)
-STOP_IDS=(100 101 102)
+START_IDS=(101 104 106 600 700)
+STOP_IDS=(100 102 103 104 105 106 301 401 402 600 700)
 
 # Iniciar VMs
 if [ "$NOW" == "$START_TIME" ]; then
@@ -30,4 +30,4 @@ if [ "$NOW" == "$STOP_TIME" ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') - Parando VM $VMID" >> $LOG
     /usr/sbin/qm shutdown $VMID >> $LOG 2>&1
   done
-f
+fi

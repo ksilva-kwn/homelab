@@ -10,11 +10,11 @@ pipeline {
     stage('Terraform Init') {
       steps {
         sh """
-          docker run --rm \
-            -v ${env.WORKSPACE}:/workspace \
-            -w /workspace/homelab/cluster-k8s/terraform \
-            hashicorp/terraform:1.12.2 \
-            terraform init -no-color
+            docker run --rm \
+                -v "${env.WORKSPACE}":/workspace \
+                -w /workspace/homelab/cluster-k8s/terraform \
+                hashicorp/terraform:1.12.2 \
+                init -no-color
         """
       }
     }

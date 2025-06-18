@@ -11,7 +11,7 @@ pipeline {
             agent {
                 docker {
                     image 'hashicorp/terraform:1.12.2'
-                    args '--entrypoint=""'
+                    args '-v $WORKSPACE/homelab/cluster-k8s/terraform:/workspace --entrypoint=""'
                 }
             }
             steps {

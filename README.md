@@ -19,7 +19,7 @@ The below lists the hardware and some specs of my homelab & network infrastructu
 ## ✨ Features
 
 Project status: **Alpha**
-- [ ] Kubernetes cluster setup via k3s
+- [ ] Kubernetes cluster setup via kubespray
 - [ ] Distributed storage
 - [x] Local DNS with Pihole
 - [x] Observability & Monitoring platform with Zabbix

@@ -38,7 +38,7 @@ locals {
   cloud_init = {
     user           = "debian"
     password       = "Kawan$lv-29"
-    ssh_public_key = file("./ssh/id_rsa.pub")
+    ssh_public_key = file("id_rsa.pub")
   }
 
   # master specific configuration

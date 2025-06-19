@@ -5,7 +5,7 @@ locals {
   onboot       = true
   proxmox_node = "kwnsilva"
   scsihw       = "virtio-scsi-pci"
-  template     = "small-debian12-2c-2m"
+  template     = "medium-debian12-2c-2m"
 
   bridge = {
     interface = "vmbr0"

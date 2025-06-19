@@ -57,7 +57,7 @@ locals {
     sockets   = 1
 
     # 192.168.0.7x and so on...
-    network_last_octect = 75
+    network_last_octect = 70
     tags                = "masters"
   }
 
@@ -73,7 +73,7 @@ locals {
     memory    = 2048
     sockets   = 1
 
-    network_last_octect = 85
+    network_last_octect = 80
     tags                = "workers"
   }
 }

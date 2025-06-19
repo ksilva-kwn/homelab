@@ -39,6 +39,11 @@ My homelab uses the following software.
     <th>Description</th>
   </tr>
   <tr>
+    <td><img width="32" src="https://github.com/homarr-labs/dashboard-icons/blob/main/svg/proxmox.svg"></td>
+    <td><a href="https://www.proxmox.com/en/">Proxmox</a></td>
+    <td>Virtual Environment</td>
+  </tr>
+  <tr>
     <td><img width="32" src="https://www.vectorlogo.zone/logos/debian/debian-icon.svg"></td>
     <td><a href="https://www.debian.org">Debian</a></td>
     <td>Base OS for all servers</td>
@@ -49,9 +54,14 @@ My homelab uses the following software.
     <td>Container runtime</td>
   </tr>
    <tr>
-    <td><img width="32" src="https://www.vectorlogo.zone/logos/docker/docker-tile.svg"></td>
-    <td><a href="https://www.docker.com">Docker</a></td>
-    <td>Kubernetes with Kubespray</td>
+    <td><img width="48" src="https://github.com/ksilva-kwn/homelab/blob/main/assets/kubespray.png"></td>
+    <td><a href="https://github.com/kubernetes-sigs/kubespray">Kubespray</a></td>
+    <td>Playbook Kubespray</td>
+  </tr>
+     <tr>
+    <td><img width="32" src="https://www.vectorlogo.zone/logos/terraformio/terraformio-icon.svg"></td>
+    <td><a href="https://developer.hashicorp.com/terraform">Terraform</a></td>
+    <td>IaC</td>
   </tr>
 </table>
 

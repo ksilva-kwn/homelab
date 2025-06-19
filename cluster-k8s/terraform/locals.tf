@@ -6,7 +6,6 @@ locals {
   proxmox_node = "kwnsilva"
   scsihw       = "virtio-scsi-pci"
   template     = "small-debian12-1c-1m"
-  cloud_init_password = getenv("CLOUD_INIT_PASSWORD")
 
   bridge = {
     interface = "vmbr0"

@@ -10,7 +10,7 @@ pipeline {
         JENKINS_PRIV_KEY = credentials('jenkins-priv-key')
     }
 
-    stages { // Only one stages block
+    stages { // All stages must be within this single 'stages' block
         stage('authentication') {
             agent {
                 docker {
@@ -20,16 +20,17 @@ pipeline {
             }
             steps {
                 dir('cluster-k8s/terraform') {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY')]) }
-                    sh '''
-                        cp "$JENKINS_PRIV_KEY" id_rsa
-                        echo "$JENKINS_PUB_KEY" > id_rsa.pub
-                    '''
+                    // The withCredentials block should wrap the steps that use the credentials
+                    withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY_FILE')]) { // Changed variable name to avoid conflict with environment variable
+                        sh '''
+                            cp "$JENKINS_PRIV_KEY_FILE" id_rsa
+                            echo "$JENKINS_PUB_KEY" > id_rsa.pub
+                        '''
+                    }
                 }
             }
         }
 
-    stages { // Only one stages block
         stage('init') {
             agent {
                 docker {
@@ -55,16 +56,14 @@ pipeline {
             }
             steps {
                 dir('cluster-k8s/terraform') {
-                        sh '''
-                            terraform plan -no-color
-                        '''
-                    }
+                    sh '''
+                        terraform plan -no-color
+                    '''
                 }
             }
         }
 
-
-       stage('apply') {
+        stage('apply') {
             agent {
                 docker {
                     image 'hashicorp/terraform:1.12.2'
@@ -73,14 +72,11 @@ pipeline {
             }
             steps {
                 dir('cluster-k8s/terraform') {
-                        sh '''
-                            terraform apply -no-color -auto-approve
-                        '''
-                    }
+                    sh '''
+                        terraform apply -no-color -auto-approve
+                    '''
                 }
             }
         }
-    }
+    } // End of the single 'stages' block
 }
-    
-

@@ -10,6 +10,14 @@ pipeline {
         JENKINS_PRIV_KEY = credentials('jenkins-priv-key')
     }
 
+    parameters {
+        choice(
+            name: 'CREATE_OR_DESTROY', 
+            choices: ['Create', 'Destroy'], 
+            description: 'Would you like to create or destroy the Kubernetes cluster?'
+            )
+    }
+
     stages { // All stages must be within this single 'stages' block
         stage('authentication') {
             agent {
@@ -61,6 +69,9 @@ pipeline {
                     '''
                 }
             }
+            when {
+                params.CREATE_OR_DESTROY == 'Create'
+            }
         }
 
         stage('apply') {
@@ -77,6 +88,30 @@ pipeline {
                     '''
                 }
             }
+            when {
+                params.CREATE_OR_DESTROY == 'Create'
+            }
         }
+
+    stage('destroy') {
+                agent {
+                    docker {
+                        image 'hashicorp/terraform:1.12.2'
+                        args '--entrypoint=""'
+                    }
+                }
+                steps {
+                    dir('cluster-k8s/terraform') {
+                        sh '''
+                            terraform apply -destroy -no-color -auto-approve
+                        '''
+                    }
+                }
+                when {
+                    params.CREATE_OR_DESTROY == 'Destroy'
+                }
+            }
+
+
     } // End of the single 'stages' block
 }

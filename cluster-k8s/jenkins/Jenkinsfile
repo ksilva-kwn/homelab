@@ -70,7 +70,9 @@ pipeline {
                 }
             }
             when {
-                params.CREATE_OR_DESTROY == 'Create'
+                expression {
+                    params.CREATE_OR_DESTROY == 'Create'
+                }
             }
         }
 

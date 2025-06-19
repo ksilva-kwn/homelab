@@ -39,7 +39,7 @@ locals {
   # cloud init information to be injected
   cloud_init = {
     user           = "debian"
-    password       = local.cloud_init_password
+    password       = "kawanslv29"
     ssh_public_key = file("id_rsa.pub")
   }
 

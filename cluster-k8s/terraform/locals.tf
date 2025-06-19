@@ -58,7 +58,7 @@ locals {
 
     # 192.168.0.7x and so on...
     network_last_octect = 75
-    tags                = "tests"
+    tags                = "masters"
   }
 
   # worker specific configuration
@@ -74,6 +74,6 @@ locals {
     sockets   = 1
 
     network_last_octect = 85
-    tags                = "tests"
+    tags                = "workers"
   }
 }

@@ -44,13 +44,13 @@ locals {
   # master specific configuration
   masters = {
     # how many nodes?
-    count = 1
+    count = 3
 
     name_prefix = "srv-testemaster"
-    vmid_prefix = 600
+    vmid_prefix = 500
 
     # hardware info
-    cores     = 2
+    cores     = 3
     disk_size = "110G"
     memory    = 2048
     sockets   = 1
@@ -62,12 +62,12 @@ locals {
 
   # worker specific configuration
   workers = {
-    count = 1
+    count = 3
 
     name_prefix = "srv-testeworker"
-    vmid_prefix = 700
+    vmid_prefix = 600
 
-    cores     = 1
+    cores     = 2
     disk_size = "110G"
     memory    = 2048
     sockets   = 1

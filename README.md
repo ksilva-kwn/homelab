@@ -48,6 +48,11 @@ My homelab uses the following software.
     <td><a href="https://www.docker.com">Docker</a></td>
     <td>Container runtime</td>
   </tr>
+   <tr>
+    <td><img width="32" src="https://www.vectorlogo.zone/logos/docker/docker-tile.svg"></td>
+    <td><a href="https://www.docker.com">Docker</a></td>
+    <td>Kubernetes with Kubespray</td>
+  </tr>
 </table>
 
 <p align='center'>

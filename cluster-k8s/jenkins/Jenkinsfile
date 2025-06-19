@@ -107,6 +107,8 @@ pipeline {
             steps {
                 dir('cluster-k8s/terraform') {
                     sh '''
+                        export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
+
                         ansibleplaybook \
                         --become \
                         --inventory inventory.ini \

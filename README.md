@@ -19,14 +19,14 @@ The below lists the hardware and some specs of my homelab & network infrastructu
 ## ✨ Features
 
 Project status: **Alpha**
-- [ ] Kubernetes cluster setup via kubespray
+- [x] Kubernetes cluster setup via kubespray
 - [ ] Distributed storage
 - [x] Local DNS with Pihole
 - [x] Observability & Monitoring platform with Zabbix
 - [ ] Streaming with Jellyfin
-- [ ] Speedtest
+- [x] Speedtest
 - [ ] Tailscale VPN
-- [ ] Home Assistant
+- [x] Home Assistant
 
 ## :wrench:&nbsp; Tech stack
 

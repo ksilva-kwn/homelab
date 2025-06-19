@@ -113,6 +113,7 @@ pipeline {
                         ansible-playbook \
                         --become \
                         --inventory inventory.ini \
+                        --forks=2 \
                         --extra-vars '{"kube_network_plugin":"flannel","download_run_once":true,"download_localhost":true,"container_manager":"docker"}' \
                         --private-key id_rsa \
                         /kubespray/cluster.yml

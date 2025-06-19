@@ -6,6 +6,7 @@ locals {
   proxmox_node = "kwnsilva"
   scsihw       = "virtio-scsi-pci"
   template     = "small-debian12-1c-1m"
+  cloud_init_password = getenv("CLOUD_INIT_PASSWORD")
 
   bridge = {
     interface = "vmbr0"
@@ -34,10 +35,11 @@ locals {
     type = "socket"
   }
 
+
   # cloud init information to be injected
   cloud_init = {
     user           = "debian"
-    password       = "Kawan$lv-29"
+    password       = local.cloud_init_password
     ssh_public_key = file("id_rsa.pub")
   }
 
@@ -46,7 +48,7 @@ locals {
     # how many nodes?
     count = 3
 
-    name_prefix = "srv-testemaster"
+    name_prefix = "srv-master-k8s"
     vmid_prefix = 500
 
     # hardware info
@@ -64,7 +66,7 @@ locals {
   workers = {
     count = 3
 
-    name_prefix = "srv-testeworker"
+    name_prefix = "srv-worker-k8s"
     vmid_prefix = 600
 
     cores     = 2

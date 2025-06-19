@@ -116,7 +116,6 @@ pipeline {
                         --extra-vars "kube_network_plugin=flannel" \
                         --private-key id_rsa \
                         /kubespray/cluster.yml \
-                        --start-at-task="Download_container | Download image if required"
                     '''
                 }
             }

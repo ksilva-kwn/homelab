@@ -73,7 +73,7 @@ locals {
     memory    = 2048
     sockets   = 1
 
-    network_last_octect = 80
+    network_last_octect = 73
     tags                = "workers"
   }
 }

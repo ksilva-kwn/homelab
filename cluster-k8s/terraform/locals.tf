@@ -70,7 +70,7 @@ locals {
 
     cores     = 2
     disk_size = "110G"
-    memory    = 2048
+    memory    = 3072
     sockets   = 1
 
     network_last_octect = 73

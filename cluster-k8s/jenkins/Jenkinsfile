@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     environment {
-        PM_API_TOKEN_ID = credentials('pm-api-token-id')
-        PM_API_TOKEN_SECRET = credentials('pm-api-token-secret')
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        PM_API_TOKEN_ID       = credentials('pm-api-token-id')
+        PM_API_TOKEN_SECRET   = credentials('pm-api-token-secret')
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-        JENKINS_PUB_KEY = credentials('jenkins-pub-key')
-        JENKINS_PRIV_KEY = credentials('jenkins-priv-key')
+        JENKINS_PUB_KEY       = credentials('jenkins-pub-key')
+        JENKINS_PRIV_KEY      = credentials('jenkins-priv-key')
     }
 
     parameters {
@@ -82,6 +82,34 @@ pipeline {
             steps {
                 dir('cluster-k8s/terraform') {
                     sh 'terraform apply -no-color -auto-approve'
+                }
+            }
+            when {
+                expression {
+                    params.CREATE_OR_DESTROY == 'Create'
+                }
+            }
+        }
+
+        stage('gather-facts') {
+            agent {
+                docker {
+                    image 'quay.io/kubespray/kubespray:v2.28.0'
+                    args '--entrypoint="" -u root'
+                }
+            }
+            steps {
+                dir('cluster-k8s/terraform') {
+                    sh '''
+                        export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
+                        export ANSIBLE_HOST_KEY_CHECKING="False"
+
+                        ansible-playbook \
+                          --become \
+                          --inventory inventory.ini \
+                          --private-key id_rsa \
+                          /kubespray/facts.yml
+                    '''
                 }
             }
             when {

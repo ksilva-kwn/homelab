@@ -104,11 +104,11 @@ pipeline {
                         export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
                         export ANSIBLE_HOST_KEY_CHECKING="False"
 
-                        ansible-playbook \
-                          --become \
-                          --inventory inventory.ini \
+                        ansible all \
+                          -i inventory.ini \
+                          -m setup \
                           --private-key id_rsa \
-                          /kubespray/facts.yml
+                          --become
                     '''
                 }
             }

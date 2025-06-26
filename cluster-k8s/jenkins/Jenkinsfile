@@ -12,13 +12,13 @@ pipeline {
 
     parameters {
         choice(
-            name: 'CREATE_OR_DESTROY', 
-            choices: ['Create', 'Destroy'], 
+            name: 'CREATE_OR_DESTROY',
+            choices: ['Create', 'Destroy'],
             description: 'Would you like to create or destroy the Kubernetes cluster?'
-            )
+        )
     }
 
-    stages { // All stages must be within this single 'stages' block
+    stages {
         stage('authentication') {
             agent {
                 docker {
@@ -28,11 +28,11 @@ pipeline {
             }
             steps {
                 dir('cluster-k8s/terraform') {
-                    // The withCredentials block should wrap the steps that use the credentials
-                    withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY_FILE')]) { // Changed variable name to avoid conflict with environment variable
+                    withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY_FILE')]) {
                         sh '''
                             cp "$JENKINS_PRIV_KEY_FILE" id_rsa
                             echo "$JENKINS_PUB_KEY" > id_rsa.pub
+                            chmod 600 id_rsa
                         '''
                     }
                 }
@@ -48,9 +48,7 @@ pipeline {
             }
             steps {
                 dir('cluster-k8s/terraform') {
-                    sh '''
-                        terraform init -no-color
-                    '''
+                    sh 'terraform init -no-color'
                 }
             }
         }
@@ -64,9 +62,7 @@ pipeline {
             }
             steps {
                 dir('cluster-k8s/terraform') {
-                    sh '''
-                        terraform plan -no-color
-                    '''
+                    sh 'terraform plan -no-color'
                 }
             }
             when {
@@ -85,9 +81,7 @@ pipeline {
             }
             steps {
                 dir('cluster-k8s/terraform') {
-                    sh '''
-                        terraform apply -no-color -auto-approve
-                    '''
+                    sh 'terraform apply -no-color -auto-approve'
                 }
             }
             when {
@@ -97,7 +91,7 @@ pipeline {
             }
         }
 
-        stage('kubespray') {
+        stage('kubespray-init') {
             agent {
                 docker {
                     image 'quay.io/kubespray/kubespray:v2.28.0'
@@ -109,13 +103,15 @@ pipeline {
                     sh '''
                         export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
                         export ANSIBLE_HOST_KEY_CHECKING="False"
+
                         ansible-playbook \
-                        --become \
-                        --inventory inventory.ini \
-                        --forks=1 \
-                        --extra-vars '{"kube_network_plugin":"flannel","download_run_once":false,"download_localhost":false,"container_manager":"docker"}' \
-                        --private-key id_rsa \
-                        /kubespray/cluster.yml
+                          --become \
+                          --inventory inventory.ini \
+                          --forks=1 \
+                          --limit=srv-master-k8s-0 \
+                          --extra-vars '{"kube_network_plugin":"flannel","download_run_once":false,"download_localhost":false,"container_manager":"docker"}' \
+                          --private-key id_rsa \
+                          /kubespray/cluster.yml
                     '''
                 }
             }
@@ -126,28 +122,54 @@ pipeline {
             }
         }
 
-    stage('destroy') {
-                agent {
-                    docker {
-                        image 'hashicorp/terraform:1.12.2'
-                        args '--entrypoint=""'
-                    }
-                }
-                steps {
-                    dir('cluster-k8s/terraform') {
-                        sh '''
-                            terraform apply -destroy -no-color -auto-approve
-                        '''
-                    }
-                }
-                when {
-                    expression {
-                        params.CREATE_OR_DESTROY == 'Destroy'
-                    }
-                    
+        stage('kubespray-join') {
+            agent {
+                docker {
+                    image 'quay.io/kubespray/kubespray:v2.28.0'
+                    args '--entrypoint="" -u root'
                 }
             }
+            steps {
+                dir('cluster-k8s/terraform') {
+                    sh '''
+                        export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
+                        export ANSIBLE_HOST_KEY_CHECKING="False"
 
+                        ansible-playbook \
+                          --become \
+                          --inventory inventory.ini \
+                          --forks=5 \
+                          --limit="all:!srv-master-k8s-0" \
+                          --extra-vars '{"kube_network_plugin":"flannel","download_run_once":false,"download_localhost":false,"container_manager":"docker"}' \
+                          --private-key id_rsa \
+                          /kubespray/cluster.yml
+                    '''
+                }
+            }
+            when {
+                expression {
+                    params.CREATE_OR_DESTROY == 'Create'
+                }
+            }
+        }
 
-    } // End of the single 'stages' block
+        stage('destroy') {
+            agent {
+                docker {
+                    image 'hashicorp/terraform:1.12.2'
+                    args '--entrypoint=""'
+                }
+            }
+            steps {
+                dir('cluster-k8s/terraform') {
+                    sh 'terraform apply -destroy -no-color -auto-approve'
+                }
+            }
+            when {
+                expression {
+                    params.CREATE_OR_DESTROY == 'Destroy'
+                }
+            }
+        }
+    }
 }

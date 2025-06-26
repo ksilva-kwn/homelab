@@ -53,7 +53,7 @@ locals {
     # hardware info
     cores     = 3
     disk_size = "110G"
-    memory    = 2048
+    memory    = 3072
     sockets   = 1
 
     # 192.168.0.7x and so on...

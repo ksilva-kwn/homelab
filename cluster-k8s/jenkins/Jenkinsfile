@@ -119,38 +119,7 @@ pipeline {
             }
         }
 
-        stage('kubespray-init') {
-            agent {
-                docker {
-                    image 'quay.io/kubespray/kubespray:v2.28.0'
-                    args '--entrypoint="" -u root'
-                }
-            }
-            steps {
-                dir('cluster-k8s/terraform') {
-                    sh '''
-                        export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
-                        export ANSIBLE_HOST_KEY_CHECKING="False"
-
-                        ansible-playbook \
-                          --become \
-                          --inventory inventory.ini \
-                          --forks=1 \
-                          --limit=srv-master-k8s-0 \
-                          --extra-vars '{"kube_network_plugin":"flannel","download_run_once":false,"download_localhost":false,"container_manager":"docker"}' \
-                          --private-key id_rsa \
-                          /kubespray/cluster.yml
-                    '''
-                }
-            }
-            when {
-                expression {
-                    params.CREATE_OR_DESTROY == 'Create'
-                }
-            }
-        }
-
-        stage('kubespray-join') {
+        stage('kubespray') {
             agent {
                 docker {
                     image 'quay.io/kubespray/kubespray:v2.28.0'
@@ -167,7 +136,6 @@ pipeline {
                           --become \
                           --inventory inventory.ini \
                           --forks=5 \
-                          --limit="all:!srv-master-k8s-0" \
                           --extra-vars '{"kube_network_plugin":"flannel","download_run_once":false,"download_localhost":false,"container_manager":"docker"}' \
                           --private-key id_rsa \
                           /kubespray/cluster.yml
